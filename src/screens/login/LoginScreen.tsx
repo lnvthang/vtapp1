@@ -14,6 +14,8 @@ import { RootStackParamList } from "../../navigation/types";
 import { s } from "./LoginScreen.styles";
 import FancyButton from "../../components/FancyButton";
 import Spacer from "../../components/Spacer";
+import Toast from "react-native-toast-message";
+import OTP from "../otp/OTPScreen";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
@@ -23,15 +25,50 @@ export default function LoginScreen({ navigation }: Props) {
   const [submitting, setSubmitting] = useState(false);
 
   const onLoginPress = async () => {
-    if (username !== 'admin' || password !== '1') {
-      Alert.alert("Missing info", "Username or password is incorrect");
+    // Input validation
+    if (!username) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Missing username",
+        text2: "Please input username or email.",
+      });
       return;
     }
-    
+    if (!password) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Missing password",
+        text2: "Please input your password.",
+      });
+      return;
+    }
+
+    // Check credentials
+    if (username !== "admin" || password !== "1") {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Incorrect login",
+        text2: "Username or password is incorrect.",
+      });
+      return;
+    }
+
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 600));
     setSubmitting(false);
-    navigation.replace("Home", { username });
+
+    // Successful login, navigate to OTP screen
+    Toast.show({
+      type: "success",
+      position: "top",
+      text1: "Login Successful",
+      text2: "Welcome back, " + username,
+    });
+
+    navigation.replace("OTP", { username });
   };
 
   return (
@@ -83,6 +120,7 @@ export default function LoginScreen({ navigation }: Props) {
           />
         </View>
       </View>
+      <Toast />
     </KeyboardAvoidingView>
   );
 }

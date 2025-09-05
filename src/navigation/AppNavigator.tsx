@@ -1,10 +1,10 @@
-// src/navigation/AppNavigator.tsx
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./types";
 import LoginScreen from "../screens/login/LoginScreen";
 import HomeScreen from "../screens/home/HomeScreen";
 import DetailsScreen from "../screens/detail/DetailsScreen";
+import OTPScreen from "../screens/otp/OTPScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,6 +16,7 @@ export default function AppNavigator() {
 
       }}
     >
+      <Stack.Screen name="OTP" component={OTPScreen} options={{ title: "OTP" }}/>
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ title: "Home" }} />
       <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Details" }} />
